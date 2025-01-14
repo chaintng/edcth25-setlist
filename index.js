@@ -1,4 +1,5 @@
 let djData = null;
+let selectedDateKey = '17JAN'; // Default value
 
 async function fetchData() {
     if (!djData) {
@@ -8,6 +9,7 @@ async function fetchData() {
 }
 
 async function loadTable(dateKey) {
+    selectedDateKey = dateKey; // Update selectedDateKey
     await fetchData();
     const data = djData;
     const tbody = document.getElementById('timetableBody');
@@ -59,6 +61,13 @@ async function loadTable(dateKey) {
 function selectDate(dateKey, button) {
     document.querySelectorAll('.date-select button').forEach(btn => btn.classList.remove('selected'));
     button.classList.add('selected');
+
+    // Reset filters
+    selectedStyle = null;
+    document.querySelectorAll('#styleButtons button').forEach(btn => btn.classList.remove('selected'));
+    document.getElementById('only-fav').classList.remove('selected');
+    document.getElementById('searchInput').value = '';
+
     loadTable(dateKey);
 }
 
@@ -143,14 +152,14 @@ function filterTable() {
     const tbody = document.getElementById('timetableBody');
     tbody.innerHTML = '';
 
-    const stages = Object.keys(filteredData['17JAN']); // Assuming '17JAN' is the default dateKey
-    const maxRows = Math.max(...stages.map(stage => filteredData['17JAN'][stage].length));
+    const stages = Object.keys(filteredData[selectedDateKey]); // Using selectedDateKey
+    const maxRows = Math.max(...stages.map(stage => filteredData[selectedDateKey][stage].length));
     for (let i = 0; i < maxRows; i++) {
         const row = document.createElement('tr');
         let kineticFieldShowtime = null;
         stages.forEach((stage, index) => {
             const cell = document.createElement('td');
-            const dj = filteredData['17JAN'][stage][i];
+            const dj = filteredData[selectedDateKey][stage][i]; // Using selectedDateKey
             if (dj) {
                 const isFavorite = getFavorites().includes(dj.DJ);
                 cell.classList.add('dj-cell');
@@ -169,5 +178,5 @@ function filterTable() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadTable('17JAN');
+    loadTable(selectedDateKey); // Using selectedDateKey
 });
