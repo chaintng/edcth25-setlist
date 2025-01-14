@@ -27,7 +27,7 @@ async function loadTable(dateKey) {
     const styles = [
         'Techno', 'House', 'Trap', 'Dubstep', 'Bass', 'Hardstyle', 'Future Bass',
         'Progressive House', 'Tech House', 'Trance', 'Big Room', 'Melodic Techno',
-        'Hip Hop', 'Psytrance', 'Deep House'
+        'Hip Hop', 'Psytrance'
     ];
     styles.forEach(style => {
         const button = document.createElement('button');
