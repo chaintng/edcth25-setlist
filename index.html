@@ -5,28 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDC TH 🇹🇭 2025 Setlist</title>
     <style>
-        body { font-family: Arial, sans-serif; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px; /* Ensure table is wide enough to scroll */
+            min-width: 600px;
+            background-color: #1e1e1e;
         }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .filter { margin-bottom: 20px; }
-        .filter button {
-            margin: 2px;
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            background-color: #f2f2f2;
+        th, td {
+            border: 1px solid #333;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #333;
+        }
+        .filter, .date-select {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .filter input, .filter button, .date-select button {
+            padding: 10px;
+            border: 1px solid #333;
+            background-color: #333;
+            color: #e0e0e0;
             cursor: pointer;
         }
-        .filter button.selected {
+        .filter button.selected, .date-select button.selected {
             background-color: #4CAF50;
             color: white;
         }
         .favorite {
-            color: black;
+            color: #e0e0e0;
             position: absolute;
             top: 5px;
             right: 5px;
@@ -37,40 +59,36 @@
         .dj-cell {
             position: relative;
         }
-        .date-select button {
-            margin: 2px;
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            background-color: #f2f2f2;
-            cursor: pointer;
-        }
-        .date-select button.selected {
-            background-color: #4CAF50;
-            color: white;
-        }
         .table-container {
             overflow-x: auto;
         }
-
         #official-setlist-div img {
             width: 100%;
             margin-top: 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <h1>EDC TH 🇹🇭 2025 Setlist</h1>
     <div class="date-select">
-        <label>Date:</label>
         <button onclick="selectDate('17JAN', this)" class="selected">17 Jan</button>
         <button onclick="selectDate('18JAN', this)">18 Jan</button>
         <button onclick="selectDate('19JAN', this)">19 Jan</button>
+
+        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for DJs..">
     </div>
     <div class="filter">
-        <div>
-            <label>Filter:</label>
-            <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for DJs..">
-        </div>
         <div>
             <div id="styleButtons">
                 <!-- Music style buttons will be inserted here by JavaScript -->
@@ -95,5 +113,8 @@
     </div>
     <div id="official-setlist-div"><img id="official-setlist"/></div>
     <script src="index.js"></script>
+    <footer>
+        Got feedback or ideas? Visit my <a href="https://github.com/chaintng/edcth25-setlist" target="_blank">GitHub repo</a>.
+    </footer>
 </body>
 </html>
