@@ -3,7 +3,7 @@
 This project is a web application that displays the setlist for the EDC TH 2025 music festival. It allows users to view the schedule of DJs performing on different stages across multiple dates, filter DJs by music style, and mark their favorite DJs.
 
 ## DEMO
-Visit:
+Visit: https://chaintng.github.io/edcth25-setlist/
 
 ## Features
 
