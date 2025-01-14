@@ -1,0 +1,192 @@
+{
+  "kineticFIELD": [
+    {
+      "DJ": "Skrillex",
+      "Showtime": "9:30PM - 12:00AM",
+      "Style": ["Bass", "Dubstep", "Trap", "Drum"]
+    },
+    {
+      "DJ": "Chris Lake B2B Sammy Virji",
+      "Showtime": "8:15PM - 9:30PM",
+      "Style": ["Tech House"]
+    },
+    {
+      "DJ": "Meduza",
+      "Showtime": "7:15PM - 8:15PM",
+      "Style": ["House", "Deep", "Progressive", "Melodic"]
+    },
+    {
+      "DJ": "Showtek",
+      "Showtime": "6:15PM - 7:15PM",
+      "Style": ["House", "Big Room", "Hardstyle"]
+    },
+    {
+      "DJ": "Hamdi",
+      "Showtime": "5:15PM - 6:15PM",
+      "Style": ["Bass", "Dubstep", "UKG"]
+    },
+    {
+      "DJ": "Pixzy",
+      "Showtime": "4:00PM - 5:15PM",
+      "Style": ["Bass", "Trap"]
+    },
+    {
+      "DJ": "Shawty P",
+      "Showtime": "3:00PM - 4:00PM",
+      "Style": ["EDM", "Mainstream"]
+    }
+  ],
+  "circuitGROUNDS": [
+    {
+      "DJ": "Marlo",
+      "Showtime": "10:45PM - 12:00AM",
+      "Style": ["Trance", "Uplifting", "Energetic Beats"]
+    },
+    {
+      "DJ": "Vini Vici",
+      "Showtime": "9:30PM - 10:45PM",
+      "Style": ["Psytrance", "House", "Trance"]
+    },
+    {
+      "DJ": "Cosmic Gate",
+      "Showtime": "8:15PM - 9:30PM",
+      "Style": ["Trance", "Techno Fusion"]
+    },
+    {
+      "DJ": "Giuseppe Ottaviani",
+      "Showtime": "7:00PM - 8:15PM",
+      "Style": ["Trance", "Progressive", "Uplifting"]
+    },
+    {
+      "DJ": "Billy Gillies",
+      "Showtime": "6:00PM - 7:00PM",
+      "Style": ["Trance", "Uplifting", "Melodic"]
+    },
+    {
+      "DJ": "Nifra",
+      "Showtime": "5:00PM - 6:00PM",
+      "Style": ["Trance", "Uplifting", "High Energy"]
+    },
+    {
+      "DJ": "Yukio",
+      "Showtime": "4:00PM - 5:00PM",
+      "Style": ["Progressive House", "Trance"]
+    },
+    {
+      "DJ": "DJ 8Asara",
+      "Showtime": "3:00PM - 4:00PM",
+      "Style": ["Techno", "Trance"]
+    }
+  ],
+  "stereoBLOOM": [
+    {
+      "DJ": "Sidepiece",
+      "Showtime": "10:45PM - 12:00AM",
+      "Style": ["Tech House", "Bass"]
+    },
+    {
+      "DJ": "Gordo",
+      "Showtime": "9:30PM - 10:45PM",
+      "Style": ["Hip Hop", "Trap", "Tech House"]
+    },
+    {
+      "DJ": "Hugel",
+      "Showtime": "8:15PM - 9:30PM",
+      "Style": ["Latin", "Tech House"]
+    },
+    {
+      "DJ": "Tokimonsta",
+      "Showtime": "7:00PM - 8:15PM",
+      "Style": ["Hip Hop", "Instrumental", "Electro"]
+    },
+    {
+      "DJ": "Indo Warehouse",
+      "Showtime": "5:45PM - 7:00PM",
+      "Style": ["Deep House", "Techno", "Indian Classical"]
+    },
+    {
+      "DJ": "Ahadadream",
+      "Showtime": "4:30PM - 5:45PM",
+      "Style": ["UK Drum", "South Asian", "African"]
+    },
+    {
+      "DJ": "Yuuki Yoshiyama",
+      "Showtime": "3:45PM - 4:30PM",
+      "Style": ["House", "Techno", "DnB"]
+    },
+    {
+      "DJ": "Baggi",
+      "Showtime": "3:00PM - 3:45PM",
+      "Style": ["House", "Techno", "Groovy"]
+    }
+  ],
+  "bionicJUNGLE": [
+    {
+      "DJ": "Hiroko Yamamura",
+      "Showtime": "10:30PM - 12:00AM",
+      "Style": ["Techno", "Minimal"]
+    },
+    {
+      "DJ": "AK Sports",
+      "Showtime": "9:00PM - 10:30PM",
+      "Style": ["Drum", "Bass"]
+    },
+    {
+      "DJ": "DJ Heartstring",
+      "Showtime": "7:30PM - 9:00PM",
+      "Style": ["Trance", "Hard Dance"]
+    },
+    {
+      "DJ": "Malugi",
+      "Showtime": "6:00PM - 7:30PM",
+      "Style": ["Bass", "House"]
+    },
+    {
+      "DJ": "Loods",
+      "Showtime": "4:30PM - 6:00PM",
+      "Style": ["House"]
+    },
+    {
+      "DJ": "Mr. Sour",
+      "Showtime": "3:00PM - 4:30PM",
+      "Style": ["Techno"]
+    }
+  ],
+  "boomboxARTCAR": [
+    {
+      "DJ": "JIM B2B K.D.B",
+      "Showtime": "11:00PM - 12:00AM",
+      "Style": ["Techno"]
+    },
+    {
+      "DJ": "LazyPrince",
+      "Showtime": "10:00PM - 11:00PM",
+      "Style": ["Pop", "EDM"]
+    },
+    {
+      "DJ": "Milky",
+      "Showtime": "9:00PM - 10:00PM",
+      "Style": ["House", "Pop"]
+    },
+    {
+      "DJ": "Honey Gee",
+      "Showtime": "7:30PM - 9:00PM",
+      "Style": ["Hip Hop", "Trap"]
+    },
+    {
+      "DJ": "Renato S",
+      "Showtime": "6:00PM - 7:30PM",
+      "Style": ["Latin", "House"]
+    },
+    {
+      "DJ": "James Jay",
+      "Showtime": "4:30PM - 6:00PM",
+      "Style": ["House"]
+    },
+    {
+      "DJ": "Amp Killa",
+      "Showtime": "3:00PM - 4:30PM",
+      "Style": ["Hip Hop"]
+    }
+  ]
+}
