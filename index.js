@@ -135,7 +135,7 @@ function filterTable() {
                 const styles = dj.Style.join(', ').toLowerCase();
                 const styleMatch = !selectedStyle || styles.includes(selectedStyle.toLowerCase());
                 const isFavorite = getFavorites().includes(dj.DJ);
-                return styleMatch && (searchInput === '' || djName.includes(searchInput)) && (!onlyFavSelected || isFavorite);
+                return styleMatch && (searchInput === '' || djName.includes(searchInput) || styles.includes(searchInput)) && (!onlyFavSelected || isFavorite);
             });
         });
     });
