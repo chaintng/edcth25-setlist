@@ -21,21 +21,6 @@ async function loadTable(dateKey) {
         });
     });
 
-    // Create and insert music style buttons statically
-    const styleButtonsDiv = document.getElementById('styleButtons');
-    styleButtonsDiv.innerHTML = '';
-    const styles = [
-        'Techno', 'House', 'Trap', 'Dubstep', 'Bass', 'Hardstyle', 'Future Bass',
-        'Progressive House', 'Tech House', 'Trance', 'Big Room', 'Melodic Techno',
-        'Hip Hop', 'Psytrance'
-    ];
-    styles.forEach(style => {
-        const button = document.createElement('button');
-        button.textContent = style;
-        button.setAttribute('onclick', `toggleStyleFilter('${style}')`);
-        styleButtonsDiv.appendChild(button);
-    });
-
     const stages = Object.keys(data[dateKey]);
     const maxRows = Math.max(...stages.map(stage => data[dateKey][stage].length));
     for (let i = 0; i < maxRows; i++) {
@@ -110,8 +95,36 @@ function toggleStyleFilter(style) {
     filterTable();
 }
 
+// Create and insert music style buttons statically
+const styleButtonsDiv = document.getElementById('styleButtons');
+styleButtonsDiv.innerHTML = '';
+
+const favButton = document.createElement('button');
+favButton.textContent = "❤️";
+favButton.id = "only-fav";
+styleButtonsDiv.appendChild(favButton);
+
+const styles = [
+    'Techno', 'House', 'Trap', 'Dubstep', 'Bass', 'Hardstyle', 'Future Bass',
+    'Progressive House', 'Tech House', 'Trance', 'Big Room', 'Melodic Techno',
+    'Hip Hop', 'Psytrance'
+];
+styles.forEach(style => {
+    const button = document.createElement('button');
+    button.textContent = style;
+    button.setAttribute('onclick', `toggleStyleFilter('${style}')`);
+    styleButtonsDiv.appendChild(button);
+});
+
+document.getElementById('only-fav').addEventListener('click', () => {
+    const onlyFavButton = document.getElementById('only-fav');
+    onlyFavButton.classList.toggle('selected');
+    filterTable();
+});
+
 function filterTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const onlyFavSelected = document.getElementById('only-fav').classList.contains('selected');
     const filteredData = {};
 
     Object.keys(djData).forEach(dateKey => {
@@ -121,7 +134,8 @@ function filterTable() {
                 const djName = dj.DJ.toLowerCase();
                 const styles = dj.Style.join(', ').toLowerCase();
                 const styleMatch = !selectedStyle || styles.includes(selectedStyle.toLowerCase());
-                return styleMatch && (searchInput === '' || djName.includes(searchInput));
+                const isFavorite = getFavorites().includes(dj.DJ);
+                return styleMatch && (searchInput === '' || djName.includes(searchInput)) && (!onlyFavSelected || isFavorite);
             });
         });
     });
