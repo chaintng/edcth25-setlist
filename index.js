@@ -59,6 +59,16 @@ async function loadTable(dateKey) {
         });
         tbody.appendChild(row);
     }
+
+    // Add image at the bottom of the table
+    const imgContainer = document.getElementById('official-setlist-div');
+    imgContainer.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = `${dateKey}.jpeg`;
+    img.alt = `${dateKey} image`;
+    img.style.cursor = 'pointer';
+    img.onclick = () => window.open(img.src, '_blank');
+    imgContainer.appendChild(img);
 }
 
 function selectDate(dateKey, button) {
@@ -83,15 +93,18 @@ function toggleFavorite(djName, button) {
     localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
-const selectedStyles = new Set();
+let selectedStyle = null;
 
 function toggleStyleFilter(style) {
     const button = document.querySelector(`button[onclick="toggleStyleFilter('${style}')"]`);
-    if (selectedStyles.has(style)) {
-        selectedStyles.delete(style);
+    if (selectedStyle === style) {
+        selectedStyle = null;
         button.classList.remove('selected');
     } else {
-        selectedStyles.add(style);
+        if (selectedStyle) {
+            document.querySelector(`button[onclick="toggleStyleFilter('${selectedStyle}')"]`).classList.remove('selected');
+        }
+        selectedStyle = style;
         button.classList.add('selected');
     }
     filterTable();
@@ -105,8 +118,8 @@ function filterTable() {
         row.querySelectorAll('td').forEach(cell => {
             const djName = cell.querySelector('strong')?.innerText.toLowerCase() || '';
             const styles = cell.dataset.style?.toLowerCase() || '';
-            const styleMatch = Array.from(selectedStyles).every(style => styles.includes(style.toLowerCase()));
-            if ((selectedStyles.size === 0 || styleMatch) && (searchInput === '' || djName.includes(searchInput))) {
+            const styleMatch = !selectedStyle || styles.includes(selectedStyle.toLowerCase());
+            if (styleMatch && (searchInput === '' || djName.includes(searchInput))) {
                 showRow = true;
             }
         });
@@ -114,4 +127,6 @@ function filterTable() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => loadTable('17JAN'));
+document.addEventListener('DOMContentLoaded', () => {
+    loadTable('17JAN');
+});

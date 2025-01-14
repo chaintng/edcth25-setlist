@@ -51,23 +51,27 @@
         .table-container {
             overflow-x: auto;
         }
+
+        #official-setlist-div img {
+            width: 100%;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>EDC Thailand 2025 Timetable</h1>
     <div class="date-select">
-        <label>Date Select:</label>
+        <label>Date:</label>
         <button onclick="selectDate('17JAN', this)" class="selected">17 Jan</button>
         <button onclick="selectDate('18JAN', this)">18 Jan</button>
         <button onclick="selectDate('19JAN', this)">19 Jan</button>
     </div>
     <div class="filter">
         <div>
-            <label>Text Filter:</label>
+            <label>Filter:</label>
             <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for DJs..">
         </div>
         <div>
-            <label>Music Style Filter:</label>
             <div id="styleButtons">
                 <!-- Music style buttons will be inserted here by JavaScript -->
             </div>
@@ -89,6 +93,7 @@
             </tbody>
         </table>
     </div>
+    <div id="official-setlist-div"><img id="official-setlist"/></div>
     <script src="index.js"></script>
 </body>
 </html>
