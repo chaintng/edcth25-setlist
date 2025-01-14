@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDC Thailand 2025 Timetable</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .filter { margin-bottom: 20px; }
+        .filter button {
+            margin: 2px;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+        .filter button.selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .favorite {
+            color: black;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .dj-cell {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <h1>EDC Thailand 2025 Timetable</h1>
+    <div class="filter">
+        <div>
+            <label>Filter by DJ Name:</label>
+            <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for DJs..">
+        </div>
+        <div>
+            <label>Filter by Music Style:</label>
+            <div id="styleButtons">
+                <button onclick="toggleStyleFilter('House')">House</button>
+                <button onclick="toggleStyleFilter('Techno')">Techno</button>
+                <button onclick="toggleStyleFilter('Trap')">Trap</button>
+                <button onclick="toggleStyleFilter('Bass')">Bass</button>
+                <button onclick="toggleStyleFilter('Dubstep')">Dubstep</button>
+                <button onclick="toggleStyleFilter('Hardstyle')">Hardstyle</button>
+                <button onclick="toggleStyleFilter('Future Bass')">Future Bass</button>
+                <button onclick="toggleStyleFilter('Big Room')">Big Room</button>
+                <button onclick="toggleStyleFilter('Progressive Trance')">Progressive Trance</button>
+                <button onclick="toggleStyleFilter('Tech House')">Tech House</button>
+                <button onclick="toggleStyleFilter('Hard Dance')">Hard Dance</button>
+                <button onclick="toggleStyleFilter('Fusion')">Fusion</button>
+                <button onclick="toggleStyleFilter('Hard Trap')">Hard Trap</button>
+                <button onclick="toggleStyleFilter('Unknown')">Unknown</button>
+            </div>
+        </div>
+    </div>
+    <table id="timetable">
+        <thead>
+            <tr>
+                <th>kineticFIELD</th>
+                <th>circuitGROUNDS</th>
+                <th>stereoBLOOM</th>
+                <th>bionicJUNGLE</th>
+                <th>boomboxARTCAR</th>
+            </tr>
+        </thead>
+        <tbody id="timetableBody">
+            <!-- Timetable rows will be inserted here by JavaScript -->
+        </tbody>
+    </table>
+    <script>
+        async function loadTable() {
+            const response = await fetch('17jan.json');
+            const data = await response.json();
+            const tbody = document.getElementById('timetableBody');
+            tbody.innerHTML = '';
+            const stages = Object.keys(data["January 17"]);
+            const maxRows = Math.max(...stages.map(stage => data["January 17"][stage].length));
+            for (let i = 0; i < maxRows; i++) {
+                const row = document.createElement('tr');
+                let kineticFieldShowtime = null;
+                stages.forEach((stage, index) => {
+                    const cell = document.createElement('td');
+                    const dj = data["January 17"][stage][i];
+                    if (dj) {
+                        const isFavorite = getFavorites().includes(dj.DJ);
+                        cell.classList.add('dj-cell');
+                        cell.innerHTML = `<button onclick="toggleFavorite('${dj.DJ}', this)" class="favorite">${isFavorite ? '❤️' : '♡'}</button><strong>${dj.DJ}</strong><br>${dj.Showtime}<br>${dj.Style.join(', ')}`;
+                        cell.dataset.style = dj.Style.join(', ');
+                        if (index === 0) {
+                            kineticFieldShowtime = dj.Showtime;
+                        } else if (kineticFieldShowtime && new Date(`1970-01-01T${dj.Showtime}:00Z`) < new Date(`1970-01-01T${kineticFieldShowtime}:00Z`)) {
+                            cell.innerHTML = '';
+                        }
+                    }
+                    row.appendChild(cell);
+                });
+                tbody.appendChild(row);
+            }
+        }
+
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem('favorites')) || [];
+        }
+
+        function toggleFavorite(djName, button) {
+            let favorites = getFavorites();
+            if (favorites.includes(djName)) {
+                favorites = favorites.filter(fav => fav !== djName);
+                button.innerHTML = '♡';
+            } else {
+                favorites.push(djName);
+                button.innerHTML = '❤️';
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        const selectedStyles = new Set();
+
+        function toggleStyleFilter(style) {
+            const button = document.querySelector(`button[onclick="toggleStyleFilter('${style}')"]`);
+            if (selectedStyles.has(style)) {
+                selectedStyles.delete(style);
+                button.classList.remove('selected');
+            } else {
+                selectedStyles.add(style);
+                button.classList.add('selected');
+            }
+            filterTable();
+        }
+
+        function filterTable() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#timetableBody tr');
+            rows.forEach(row => {
+                let showRow = false;
+                row.querySelectorAll('td').forEach(cell => {
+                    const djName = cell.querySelector('strong')?.innerText.toLowerCase() || '';
+                    const styles = cell.dataset.style?.toLowerCase() || '';
+                    const styleMatch = Array.from(selectedStyles).every(style => styles.includes(style.toLowerCase()));
+                    if ((selectedStyles.size === 0 || styleMatch) && (searchInput === '' || djName.includes(searchInput))) {
+                        showRow = true;
+                    }
+                });
+                row.style.display = showRow ? '' : 'none';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTable);
+    </script>
+</body>
+</html>
