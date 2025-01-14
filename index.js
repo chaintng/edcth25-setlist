@@ -112,19 +112,46 @@ function toggleStyleFilter(style) {
 
 function filterTable() {
     const searchInput = document.getElementById('searchInput').value.toLowerCase();
-    const rows = document.querySelectorAll('#timetableBody tr');
-    rows.forEach(row => {
-        let showRow = false;
-        row.querySelectorAll('td').forEach(cell => {
-            const djName = cell.querySelector('strong')?.innerText.toLowerCase() || '';
-            const styles = cell.dataset.style?.toLowerCase() || '';
-            const styleMatch = !selectedStyle || styles.includes(selectedStyle.toLowerCase());
-            if (styleMatch && (searchInput === '' || djName.includes(searchInput))) {
-                showRow = true;
-            }
+    const filteredData = {};
+
+    Object.keys(djData).forEach(dateKey => {
+        filteredData[dateKey] = {};
+        Object.keys(djData[dateKey]).forEach(stage => {
+            filteredData[dateKey][stage] = djData[dateKey][stage].filter(dj => {
+                const djName = dj.DJ.toLowerCase();
+                const styles = dj.Style.join(', ').toLowerCase();
+                const styleMatch = !selectedStyle || styles.includes(selectedStyle.toLowerCase());
+                return styleMatch && (searchInput === '' || djName.includes(searchInput));
+            });
         });
-        row.style.display = showRow ? '' : 'none';
     });
+
+    const tbody = document.getElementById('timetableBody');
+    tbody.innerHTML = '';
+
+    const stages = Object.keys(filteredData['17JAN']); // Assuming '17JAN' is the default dateKey
+    const maxRows = Math.max(...stages.map(stage => filteredData['17JAN'][stage].length));
+    for (let i = 0; i < maxRows; i++) {
+        const row = document.createElement('tr');
+        let kineticFieldShowtime = null;
+        stages.forEach((stage, index) => {
+            const cell = document.createElement('td');
+            const dj = filteredData['17JAN'][stage][i];
+            if (dj) {
+                const isFavorite = getFavorites().includes(dj.DJ);
+                cell.classList.add('dj-cell');
+                cell.innerHTML = `<button onclick="toggleFavorite('${dj.DJ}', this)" class="favorite">${isFavorite ? '❤️' : '♡'}</button><strong>${dj.DJ}</strong><br>${dj.Showtime}<br>${dj.Style.join(', ')}`;
+                cell.dataset.style = dj.Style.join(', ');
+                if (index === 0) {
+                    kineticFieldShowtime = dj.Showtime;
+                } else if (kineticFieldShowtime && new Date(`1970-01-01T${dj.Showtime}:00Z`) < new Date(`1970-01-01T${kineticFieldShowtime}:00Z`)) {
+                    cell.innerHTML = '';
+                }
+            }
+            row.appendChild(cell);
+        });
+        tbody.appendChild(row);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
