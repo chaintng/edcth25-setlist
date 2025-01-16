@@ -24,23 +24,37 @@ async function loadTable(dateKey) {
     });
 
     const stages = Object.keys(data[dateKey]);
-    const maxRows = Math.max(...stages.map(stage => data[dateKey][stage].length));
-    for (let i = 0; i < maxRows; i++) {
+    const timeSlots = [
+        '03:00-03:30', '03:30-04:00', '04:00-05:00', '05:00-06:00', '06:00-07:00',
+        '07:00-08:00', '08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00'
+    ];
+
+    function convertTo24Hour(time) {
+        const [timePart, modifier] = time.split(' ');
+        let [hours, minutes] = timePart.split(':');
+        if (hours === '12') {
+            hours = '00';
+        }
+        if (modifier === 'PM') {
+            hours = parseInt(hours, 10) + 12;
+        }
+        return `${hours.padStart(2, '0')}:${minutes}`;
+    }
+
+    for (let i = 0; i < timeSlots.length; i++) {
         const row = document.createElement('tr');
-        let kineticFieldShowtime = null;
-        stages.forEach((stage, index) => {
+        stages.forEach(stage => {
             const cell = document.createElement('td');
-            const dj = data[dateKey][stage][i];
+            const dj = data[dateKey][stage].find(dj => {
+                const [startTime, endTime] = dj.Showtime.split(' - ').map(convertTo24Hour);
+                const [slotStart, slotEnd] = timeSlots[i].split('-');
+                return startTime >= slotStart && startTime < slotEnd;
+            });
             if (dj) {
                 const isFavorite = getFavorites().includes(dj.DJ.toLowerCase());
                 cell.classList.add('dj-cell');
                 cell.innerHTML = `<button onclick="toggleFavorite('${dj.DJ}', this)" class="favorite">${isFavorite ? '❤️' : '♡'}</button><strong>${dj.DJ}</strong><br>${dj.Showtime}<br>${dj.Style.join(', ')}`;
                 cell.dataset.style = dj.Style.join(', ');
-                if (index === 0) {
-                    kineticFieldShowtime = dj.Showtime;
-                } else if (kineticFieldShowtime && new Date(`1970-01-01T${dj.Showtime}:00Z`) < new Date(`1970-01-01T${kineticFieldShowtime}:00Z`)) {
-                    cell.innerHTML = '';
-                }
             }
             row.appendChild(cell);
         });
@@ -157,8 +171,7 @@ function filterTable() {
     const maxRows = Math.max(...stages.map(stage => filteredData[selectedDateKey][stage].length));
     for (let i = 0; i < maxRows; i++) {
         const row = document.createElement('tr');
-        let kineticFieldShowtime = null;
-        stages.forEach((stage, index) => {
+        stages.forEach(stage => {
             const cell = document.createElement('td');
             const dj = filteredData[selectedDateKey][stage][i]; // Using selectedDateKey
             if (dj) {
@@ -166,11 +179,6 @@ function filterTable() {
                 cell.classList.add('dj-cell');
                 cell.innerHTML = `<button onclick="toggleFavorite('${dj.DJ}', this)" class="favorite">${isFavorite ? '❤️' : '♡'}</button><strong>${dj.DJ}</strong><br>${dj.Showtime}<br>${dj.Style.join(', ')}`;
                 cell.dataset.style = dj.Style.join(', ');
-                if (index === 0) {
-                    kineticFieldShowtime = dj.Showtime;
-                } else if (kineticFieldShowtime && new Date(`1970-01-01T${dj.Showtime}:00Z`) < new Date(`1970-01-01T${kineticFieldShowtime}:00Z`)) {
-                    cell.innerHTML = '';
-                }
             }
             row.appendChild(cell);
         });
