@@ -32,7 +32,7 @@ async function loadTable(dateKey) {
             const cell = document.createElement('td');
             const dj = data[dateKey][stage][i];
             if (dj) {
-                const isFavorite = getFavorites().includes(dj.DJ);
+                const isFavorite = getFavorites().includes(dj.DJ.toLowerCase());
                 cell.classList.add('dj-cell');
                 cell.innerHTML = `<button onclick="toggleFavorite('${dj.DJ}', this)" class="favorite">${isFavorite ? '❤️' : '♡'}</button><strong>${dj.DJ}</strong><br>${dj.Showtime}<br>${dj.Style.join(', ')}`;
                 cell.dataset.style = dj.Style.join(', ');
@@ -72,16 +72,17 @@ function selectDate(dateKey, button) {
 }
 
 function getFavorites() {
-    return JSON.parse(localStorage.getItem('favorites')) || [];
+    return JSON.parse(localStorage.getItem('favorites'))?.map(fav => fav.toLowerCase()) || [];
 }
 
 function toggleFavorite(djName, button) {
     let favorites = getFavorites();
-    if (favorites.includes(djName)) {
-        favorites = favorites.filter(fav => fav !== djName);
+    const djNameLower = djName.toLowerCase();
+    if (favorites.includes(djNameLower)) {
+        favorites = favorites.filter(fav => fav !== djNameLower);
         button.innerHTML = '♡';
     } else {
-        favorites.push(djName);
+        favorites.push(djNameLower);
         button.innerHTML = '❤️';
     }
     localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -143,7 +144,7 @@ function filterTable() {
                 const djName = dj.DJ.toLowerCase();
                 const styles = dj.Style.join(', ').toLowerCase();
                 const styleMatch = !selectedStyle || styles.includes(selectedStyle.toLowerCase());
-                const isFavorite = getFavorites().includes(dj.DJ);
+                const isFavorite = getFavorites().includes(dj.DJ.toLowerCase());
                 return styleMatch && (searchInput === '' || djName.includes(searchInput) || styles.includes(searchInput)) && (!onlyFavSelected || isFavorite);
             });
         });
@@ -161,7 +162,7 @@ function filterTable() {
             const cell = document.createElement('td');
             const dj = filteredData[selectedDateKey][stage][i]; // Using selectedDateKey
             if (dj) {
-                const isFavorite = getFavorites().includes(dj.DJ);
+                const isFavorite = getFavorites().includes(dj.DJ.toLowerCase());
                 cell.classList.add('dj-cell');
                 cell.innerHTML = `<button onclick="toggleFavorite('${dj.DJ}', this)" class="favorite">${isFavorite ? '❤️' : '♡'}</button><strong>${dj.DJ}</strong><br>${dj.Showtime}<br>${dj.Style.join(', ')}`;
                 cell.dataset.style = dj.Style.join(', ');
